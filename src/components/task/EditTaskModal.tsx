@@ -25,6 +25,8 @@ export const EditTaskModal: React.FC<EditTaskModalProps> = ({ visible, task, onC
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [priority, setPriority] = useState<TaskPriority>(TaskPriority.MEDIUM);
+  const [estimatedMinutes, setEstimatedMinutes] = useState('');
+  const [actualMinutes, setActualMinutes] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<{ title?: string; description?: string }>({});
 
@@ -37,6 +39,8 @@ export const EditTaskModal: React.FC<EditTaskModalProps> = ({ visible, task, onC
       setTitle(task.title);
       setDescription(task.description || '');
       setPriority(task.priority);
+      setEstimatedMinutes(task.estimatedMinutes ? task.estimatedMinutes.toString() : '');
+      setActualMinutes(task.actualMinutes ? task.actualMinutes.toString() : '');
       setErrors({});
     }
   }, [task]);
@@ -70,6 +74,8 @@ export const EditTaskModal: React.FC<EditTaskModalProps> = ({ visible, task, onC
         title: title.trim(),
         description: description.trim() || undefined,
         priority,
+        estimatedMinutes: estimatedMinutes ? parseInt(estimatedMinutes, 10) : undefined,
+        actualMinutes: actualMinutes ? parseInt(actualMinutes, 10) : undefined,
       });
       
       onClose();
@@ -150,6 +156,22 @@ export const EditTaskModal: React.FC<EditTaskModalProps> = ({ visible, task, onC
           multiline
           numberOfLines={4}
           style={styles.textArea}
+        />
+
+        <Input
+          label="Estimated Time (minutes)"
+          placeholder="How long will this take? (optional)"
+          value={estimatedMinutes}
+          onChangeText={setEstimatedMinutes}
+          keyboardType="numeric"
+        />
+
+        <Input
+          label="Actual Time Spent (minutes)"
+          placeholder="How long did it take? (optional)"
+          value={actualMinutes}
+          onChangeText={setActualMinutes}
+          keyboardType="numeric"
         />
 
         <View style={styles.priorityContainer}>

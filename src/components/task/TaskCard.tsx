@@ -115,16 +115,25 @@ export const TaskCard: React.FC<TaskCardProps> = ({
       </View>
 
       <View style={styles.footer}>
-        {task.dueDate && (
-          <Text
-            style={[
-              styles.dueDate,
-              isDueDateOverdue && !isCompleted && styles.dueDateOverdue,
-            ]}
-          >
-            {formatDueDate(task.dueDate)}
-          </Text>
-        )}
+        <View style={styles.footerLeft}>
+          {task.dueDate && (
+            <Text
+              style={[
+                styles.dueDate,
+                isDueDateOverdue && !isCompleted && styles.dueDateOverdue,
+              ]}
+            >
+              {formatDueDate(task.dueDate)}
+            </Text>
+          )}
+          
+          {task.estimatedMinutes && (
+            <Text style={styles.timeText}>
+              ⏱️ {task.estimatedMinutes}m
+              {task.actualMinutes && ` / ${task.actualMinutes}m`}
+            </Text>
+          )}
+        </View>
 
         {task.tags && task.tags.length > 0 && (
           <View style={styles.tags}>
@@ -230,6 +239,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  footerLeft: {
+    flexDirection: 'column',
+    gap: 4,
+  },
   dueDate: {
     fontSize: 12,
     color: '#8E8E93',
@@ -237,6 +250,11 @@ const styles = StyleSheet.create({
   dueDateOverdue: {
     color: '#FF3B30',
     fontWeight: '600',
+  },
+  timeText: {
+    fontSize: 11,
+    color: '#007AFF',
+    fontWeight: '500',
   },
   tags: {
     flexDirection: 'row',

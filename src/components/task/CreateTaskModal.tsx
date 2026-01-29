@@ -24,6 +24,7 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({ visible, onClo
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [priority, setPriority] = useState<TaskPriority>(TaskPriority.MEDIUM);
+  const [estimatedMinutes, setEstimatedMinutes] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<{ title?: string; description?: string }>({});
 
@@ -58,12 +59,14 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({ visible, onClo
         title: title.trim(),
         description: description.trim() || undefined,
         priority,
+        estimatedMinutes: estimatedMinutes ? parseInt(estimatedMinutes, 10) : undefined,
       });
       
       // Reset form
       setTitle('');
       setDescription('');
       setPriority(TaskPriority.MEDIUM);
+      setEstimatedMinutes('');
       setErrors({});
       
       onClose();
@@ -83,6 +86,7 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({ visible, onClo
     setTitle('');
     setDescription('');
     setPriority(TaskPriority.MEDIUM);
+    setEstimatedMinutes('');
     setErrors({});
     onClose();
   }, [onClose]);
@@ -116,6 +120,14 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({ visible, onClo
           multiline
           numberOfLines={4}
           style={styles.textArea}
+        />
+
+        <Input
+          label="Estimated Time (minutes)"
+          placeholder="How long will this take? (optional)"
+          value={estimatedMinutes}
+          onChangeText={setEstimatedMinutes}
+          keyboardType="numeric"
         />
 
         <View style={styles.priorityContainer}>

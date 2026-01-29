@@ -21,6 +21,9 @@ export interface Task {
   status: TaskStatus;
   priority: TaskPriority;
   dueDate?: string; // ISO date string
+  estimatedMinutes?: number; // Estimated time to complete in minutes
+  actualMinutes?: number; // Actual time spent in minutes
+  timerStartedAt?: string; // ISO date string when timer started
   createdAt: string; // ISO date string
   updatedAt: string; // ISO date string
   tags?: string[];
@@ -31,6 +34,7 @@ export interface CreateTaskInput {
   description?: string;
   priority?: TaskPriority;
   dueDate?: string;
+  estimatedMinutes?: number;
   tags?: string[];
 }
 
@@ -40,6 +44,8 @@ export interface UpdateTaskInput {
   status?: TaskStatus;
   priority?: TaskPriority;
   dueDate?: string;
+  estimatedMinutes?: number;
+  actualMinutes?: number;
   tags?: string[];
 }
 
